@@ -47,28 +47,28 @@ public class Event implements Serializable {
         return 1;
     }
 
-    public boolean isApplicable(List<RuleCondition> conditions) {
+    public boolean checkProperties(List<RuleCondition> conditions) {
         for (RuleCondition condition : conditions) {
-            if (!isApplicable(condition))
+            if (!checkProperties(condition))
                 return false;
         }
         return true;
     }
 
-    public boolean isApplicable(RuleCondition condition) {
+    public boolean checkProperties(RuleCondition condition) {
         Property property = this.getPropertyByName(condition.getKey());
         if (property == null)
             return false;
 
         switch (condition.getOperator()) {
+            case "==":
+                return property.getValue().compareTo(condition.getValue()) == 0;
+            case "!=":
+                return property.getValue().compareTo(condition.getValue()) != 0;
             case "<":
                 return property.getValue().compareTo(condition.getValue()) < 0;
             case ">":
                 return property.getValue().compareTo(condition.getValue()) > 0;
-            case "=":
-                return property.getValue().compareTo(condition.getValue()) == 0;
-            case "!=":
-                return property.getValue().compareTo(condition.getValue()) != 0;
         }
         return true;
     }

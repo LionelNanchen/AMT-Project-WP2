@@ -9,10 +9,6 @@ public class UtilsSteps {
     private String apiKey = "a1";
     private int statusCode;
 
-    @Given("^I have an api key$")
-    public void i_have_an_api_key() throws Throwable {
-        Assert.assertNotEquals("", apiKey);
-    }
 
     @Then("^I receive status code <(\\d+)>$")
     public void i_receive_status_code(int arg1) throws Throwable {
@@ -25,5 +21,10 @@ public class UtilsSteps {
 
     public String getApiKey() {
         return apiKey;
+    }
+
+    @Given("^I have an api key$")
+    public void iHaveAnApiKey() {
+
     }
 }

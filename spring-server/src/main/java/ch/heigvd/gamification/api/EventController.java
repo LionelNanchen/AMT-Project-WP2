@@ -67,7 +67,7 @@ public class EventController implements EventsApi {
                     List<Rule> rules = EventController.this.rulesRepository.findAllByTypeAndBadge_Application(event.getType(), event.getUser().getApplication());
 
                     for (Rule rule : rules) {
-                        if (rule.getConditions().size() > 0 && !event.isApplicable(rule.getConditions()))
+                        if (rule.getConditions().size() > 0 && !event.checkProperties(rule.getConditions()))
                             continue;
 
                         Reward reward = EventController.this.rewardRepository.findByUserAndRule(event.getUser(), rule);
