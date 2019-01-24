@@ -8,6 +8,11 @@ public class UtilsSteps {
     private static String apiKey = "a1";
     private static int statusCode;
 
+    @Given("^I have an api key$")
+    public void iHaveAnApiKey() {
+        statusCode = -1;//invalidate last scenario code
+        Assert.assertNotEquals("", apiKey);//todo try get on an endpoint anr receive a 200
+    }
 
     @Then("^I receive status code <(\\d+)>$")
     public void i_receive_status_code(int arg1) throws Throwable {
@@ -20,10 +25,5 @@ public class UtilsSteps {
 
     public static String getApiKey() {
         return apiKey;
-    }
-
-    @Given("^I have an api key$")
-    public void iHaveAnApiKey() {
-
     }
 }
