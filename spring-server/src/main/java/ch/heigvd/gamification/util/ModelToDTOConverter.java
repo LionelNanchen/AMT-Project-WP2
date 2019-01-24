@@ -1,15 +1,19 @@
 package ch.heigvd.gamification.util;
 
 import ch.heigvd.gamification.api.dto.*;
+import ch.heigvd.gamification.api.dto.BadgesResponseDTO;
+import ch.heigvd.gamification.api.dto.PointScaleIdDTO;
+import ch.heigvd.gamification.api.dto.RuleResponseDTO;
 import ch.heigvd.gamification.model.*;
 
 import java.util.ArrayList;
 
 public class ModelToDTOConverter {
 
+
     // BADGES
     public static BadgesResponseDTO convert(Badge badge) {
-        BadgesResponseDTO output = new BadgesResponseDTO();
+        ch.heigvd.gamification.api.dto.BadgesResponseDTO output = new BadgesResponseDTO();
         output.setDescription(badge.getDescription());
         output.setName(badge.getName());
         output.setId(badge.getId());
@@ -17,13 +21,13 @@ public class ModelToDTOConverter {
     }
 
     // EVENT
-    public static Event convert(EventDTO eventDTO) {
+    public static Event convert(ch.heigvd.gamification.api.dto.EventDTO eventDTO) {
         Event output = new Event();
         output.setType(eventDTO.getType());
         output.setTimestamp(eventDTO.getTimestamp().toLocalDateTime());
         output.setProperties(new ArrayList<>());
         if (eventDTO.getProperties() != null) {
-            for(ValueDTO property : eventDTO.getProperties()) {
+            for(ch.heigvd.gamification.api.dto.ValueDTO property : eventDTO.getProperties()) {
                 Property prop = ModelToDTOConverter.convert(property);
                 output.getProperties().add(prop);
                 prop.setEvent(output);
@@ -35,14 +39,14 @@ public class ModelToDTOConverter {
 
     // POINTSCALE
     public static PointScaleIdDTO convert(PointScale pointScale) {
-        PointScaleIdDTO output = new PointScaleIdDTO();
+        ch.heigvd.gamification.api.dto.PointScaleIdDTO output = new PointScaleIdDTO();
         output.setPointScaleName(pointScale.getName());
         output.setPointScaleId(pointScale.getId());
         return output;
     }
 
     // PROPERTY
-    public static Property convert(ValueDTO value) {
+    public static Property convert(ch.heigvd.gamification.api.dto.ValueDTO value) {
         Property output = new Property();
         output.setName(value.getKey());
         output.setValue(value.getValue());
@@ -50,7 +54,7 @@ public class ModelToDTOConverter {
     }
 
     // RULE
-    public static Rule convert(RuleDTO ruleDTO) {
+    public static Rule convert(ch.heigvd.gamification.api.dto.RuleDTO ruleDTO) {
         Rule output = new Rule();
         output.setConditions(new ArrayList<>());
         output.setName(ruleDTO.getName());
@@ -58,7 +62,7 @@ public class ModelToDTOConverter {
         output.setType(ruleDTO.getType());
 
         if (ruleDTO.getConditions() != null) {
-            for(ConditionDTO condition : ruleDTO.getConditions()) {
+            for(ch.heigvd.gamification.api.dto.ConditionDTO condition : ruleDTO.getConditions()) {
                 output.getConditions().add(convert(condition));
             }
         }
@@ -66,7 +70,7 @@ public class ModelToDTOConverter {
     }
 
 
-    public static RuleCondition convert(ConditionDTO conditionDTO) {
+    public static RuleCondition convert(ch.heigvd.gamification.api.dto.ConditionDTO conditionDTO) {
         RuleCondition output = new RuleCondition();
         output.setKey(conditionDTO.getKey());
         output.setOperator(conditionDTO.getOperator());
@@ -74,9 +78,8 @@ public class ModelToDTOConverter {
         return output;
     }
 
-
     public static RuleResponseDTO convert(Rule rule) {
-        RuleResponseDTO output = new RuleResponseDTO();
+        ch.heigvd.gamification.api.dto.RuleResponseDTO output = new RuleResponseDTO();
         output.setBadge(convert(rule.getBadge()));
         output.setId(rule.getId());
         output.setName(rule.getName());
