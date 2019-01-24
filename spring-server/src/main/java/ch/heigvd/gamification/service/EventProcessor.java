@@ -17,29 +17,31 @@ import java.util.List;
 @Service
 public class EventProcessor {
 
-    @Autowired
     private ApplicationRepository applicationRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private EventRepository eventRepository;
 
-    @Autowired
     private RulesRepository rulesRepository;
 
-    @Autowired
     private RewardRepository rewardRepository;
 
-    @Autowired
     private BadgeRepository badgeRepository;
+
+    private UserRepository userRepository;
+
+    public EventProcessor(ApplicationRepository applicationRepository, BadgeRepository badgeRepository, EventRepository eventRepository, RulesRepository rulesRepository, RewardRepository rewardRepository, UserRepository userRepository) {
+        this.applicationRepository = applicationRepository;
+        this.eventRepository = eventRepository;
+        this.rulesRepository = rulesRepository;
+        this.rewardRepository = rewardRepository;
+        this.badgeRepository = badgeRepository;
+        this.userRepository = userRepository;
+    }
 
     @Async
     @Transactional
     public Boolean processEvent(EventDTO event, String xApiKey) {
         Application application = applicationRepository.findByAppKey(xApiKey);
-
         if (application != null) {
             User user = userRepository.findByRemoteUserIdAndApplication(event.getRemoteUserId(), application);
 

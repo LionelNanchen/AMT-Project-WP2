@@ -1,10 +1,10 @@
 package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.EventDTO;
-import ch.heigvd.gamification.model.*;
+import ch.heigvd.gamification.model.Application;
+import ch.heigvd.gamification.model.Badge;
 import ch.heigvd.gamification.repository.*;
 import ch.heigvd.gamification.service.EventProcessor;
-import ch.heigvd.gamification.util.ModelToDTOConverter;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +24,6 @@ public class EventController implements ch.heigvd.gamification.api.EventsApi {
 
     @Autowired
     private ApplicationRepository applicationRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private EventRepository eventRepository;
