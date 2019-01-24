@@ -1,13 +1,12 @@
 package ch.heigvd.gamification.api.spec.steps;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.junit.Assert;
 
 public class UtilsSteps {
-    private String apiKey = "a1";
-    private int statusCode;
+    private static String apiKey = "a1";
+    private static int statusCode;
 
 
     @Then("^I receive status code <(\\d+)>$")
@@ -15,11 +14,11 @@ public class UtilsSteps {
         Assert.assertEquals(arg1, statusCode);
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public static void setStatusCode(int statusCode) {
+        UtilsSteps.statusCode = statusCode;
     }
 
-    public String getApiKey() {
+    public static String getApiKey() {
         return apiKey;
     }
 
