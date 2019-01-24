@@ -21,7 +21,6 @@ public class BadgesSteps {
         badges.setName("test");
         badges.setDescription("a test");
         badgesApi.badgesPost(utilsSteps.getApiKey(), badges);
-        throw new PendingException();
     }
 
     @When("^I GET all the badges from the endpoint /badges$")
@@ -33,7 +32,7 @@ public class BadgesSteps {
     @When("^I try to DELETE the badge$")
     public void i_try_to_DELETE_the_badge() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        //throw new PendingException();
     }
 
     @When("^I try to change the badge's name$")
