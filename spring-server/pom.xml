@@ -3,7 +3,7 @@
     <groupId>io.swagger</groupId>
     <artifactId>swagger-spring</artifactId>
     <packaging>jar</packaging>
-    <name>amt-w2</name>
+    <name>AMT-Project-WP2</name>
     <version>1.0.0</version>
     <properties>
         <java.version>1.8</java.version>
@@ -56,7 +56,7 @@
         </plugins>
     </build>
     <dependencies>
-        <!-- Use MySQL Connector-J -->
+        <!-- Use MySQL -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

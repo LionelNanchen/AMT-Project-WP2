@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
+ * AMT WP2 2018-2019
+ */
 @Entity
 @Table(name = "badge")
 public class Badge implements Serializable {
@@ -24,7 +28,7 @@ public class Badge implements Serializable {
     @ManyToMany()
     private List<User> users;
 
-    public Badge(){}
+    public Badge() {}
 
     public Badge(String name, String description, Application app) {
         this.name = name;

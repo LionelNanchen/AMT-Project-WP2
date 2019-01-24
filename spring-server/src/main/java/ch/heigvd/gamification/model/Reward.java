@@ -2,6 +2,10 @@ package ch.heigvd.gamification.model;
 
 import javax.persistence.*;
 
+/**
+ * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
+ * AMT WP2 2018-2019
+ */
 @Entity
 @Table(name = "reward")
 public class Reward {
@@ -19,9 +23,7 @@ public class Reward {
     @Column
     private int nbPoints;
 
-    public Reward() {
-
-    }
+    public Reward() {}
 
     public Reward(User user, Rule rule, int nbPoints) {
         this.user = user;
