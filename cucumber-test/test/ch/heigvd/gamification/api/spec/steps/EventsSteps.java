@@ -1,9 +1,13 @@
 package ch.heigvd.gamification.api.spec.steps;
 
+import ch.heigvd.gamification.api.DefaultApi;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.When;
 
 public class EventsSteps {
+    private DefaultApi defaultApi = new DefaultApi();
+    private long id;
+
     @When("^I try to POST a new event$")
     public void i_try_to_POST_a_new_event() throws Throwable {
         // Write code here that turns the phrase above into concrete actions

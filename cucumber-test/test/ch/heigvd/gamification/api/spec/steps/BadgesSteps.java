@@ -5,7 +5,6 @@ import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
 import ch.heigvd.gamification.api.dto.BadgesDTO;
 import ch.heigvd.gamification.api.dto.BadgesResponseDTO;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.When;
 
 import java.util.List;
