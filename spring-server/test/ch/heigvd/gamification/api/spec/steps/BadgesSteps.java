@@ -1,4 +1,4 @@
-package ch.heigvd.gamification.api.spec;
+package ch.heigvd.gamification.api.spec.steps;
 
 import ch.heigvd.gamification.api.BadgesApi;
 import ch.heigvd.gamification.api.BadgesController;

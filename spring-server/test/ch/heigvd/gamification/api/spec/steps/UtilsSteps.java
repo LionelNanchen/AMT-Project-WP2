@@ -1,4 +1,4 @@
-package ch.heigvd.gamification.api.spec;
+package ch.heigvd.gamification.api.spec.steps;
 
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
