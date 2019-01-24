@@ -3,32 +3,24 @@ package ch.heigvd.gamification.api;
 import ch.heigvd.gamification.api.dto.EventDTO;
 import ch.heigvd.gamification.model.*;
 import ch.heigvd.gamification.repository.*;
+import ch.heigvd.gamification.service.EventProcessor;
 import ch.heigvd.gamification.util.ModelToDTOConverter;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
  * AMT WP2 2018-2019
  */
 @RestController
-public class EventController implements EventsApi {
-
-    interface EventProcessor {
-        @Async
-        @Transactional
-        void process(Event event);
-    }
+public class EventController implements ch.heigvd.gamification.api.EventsApi {
 
     @Autowired
     private ApplicationRepository applicationRepository;
@@ -50,48 +42,9 @@ public class EventController implements EventsApi {
 
     @Override
     public ResponseEntity<EventDTO> reportEvent(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey, @ApiParam(value = "The event that occured in the application" ,required=true )  @Valid @RequestBody EventDTO event) {
-        Application application = applicationRepository.findByAppKey(xApiKey);
-
-        if (application != null) {
-            User user = userRepository.findByRemoteUserIdAndApplication(event.getRemoteUserId(), application);
-
-            if (user == null)
-                user = new User(application, event.getRemoteUserId());
-
-            Event _event = ModelToDTOConverter.convert(event);
-            _event.setUser(user);
-            eventRepository.save(_event);
-
-            /**
-             * Process each event
-             */
-            EventProcessor eventProcessor = new EventProcessor() {
-
-                public void process(Event event) {
-                    List<Rule> rules = EventController.this.rulesRepository.findAllByTypeAndBadge_Application(event.getType(), event.getUser().getApplication());
-
-                    for (Rule rule : rules) {
-                        if (rule.getConditions().size() > 0 && !event.checkProperties(rule.getConditions()))
-                            continue;
-
-                        Reward reward = EventController.this.rewardRepository.findByUserAndRule(event.getUser(), rule);
-                        if (reward == null)
-                            reward = new Reward(event.getUser(), rule, 0);
-
-                        reward.setNbPoints(reward.getNbPoints() + event.getQuantityFromProperties());
-                        EventController.this.rewardRepository.save(reward);
-
-                        boolean exist = EventController.this.badgeRepository.existsByUsersContainsAndId(reward.getUser(), rule.getBadge().getId());
-                        if (reward.getNbPoints() >= rule.getQuantity() && !exist) {
-                            rule.getBadge().getUsers().add(reward.getUser());
-                            EventController.this.badgeRepository.save(rule.getBadge());
-                        }
-                    }
-                }
-
-            };
-            eventProcessor.process(_event);
-
+        Event _event = ModelToDTOConverter.convert(event);
+        EventProcessor eventProcessor = new EventProcessor();
+        if (eventProcessor.process(_event, xApiKey)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

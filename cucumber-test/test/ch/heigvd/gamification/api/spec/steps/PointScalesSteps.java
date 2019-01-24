@@ -17,21 +17,34 @@ public class PointScalesSteps {
     public void i_try_to_POST_a_new_pointScale() throws Throwable {
         PointScaleDTO pointScale = new PointScaleDTO();
         pointScale.setPointScaleName("test");
-        ApiResponse<Void> res = defaultApi.pointScalePostWithHttpInfo(UtilsSteps.getApiKey(), pointScale);
-        UtilsSteps.setStatusCode(res.getStatusCode());
-        id = Long.parseLong(res.getHeaders().get("id").get(0));
+
+        try {
+            ApiResponse<Void> res = defaultApi.pointScalePostWithHttpInfo(UtilsSteps.getApiKey(), pointScale);
+            UtilsSteps.setStatusCode(res.getStatusCode());
+            id = Long.parseLong(res.getHeaders().get("id").get(0));
+        } catch (ApiException e) {
+            UtilsSteps.setStatusCode(e.getCode());
+        }
     }
 
     @When("^I GET all the badges from the endpoint /pointScale$")
     public void i_GET_all_the_badges_from_the_endpoint_pointScale() throws Throwable {
-        ApiResponse<List<PointScaleIdDTO>> res = defaultApi.pointScaleGetWithHttpInfo(UtilsSteps.getApiKey());
-        UtilsSteps.setStatusCode(res.getStatusCode());
+        try {
+            ApiResponse<List<PointScaleIdDTO>> res = defaultApi.pointScaleGetWithHttpInfo(UtilsSteps.getApiKey());
+            UtilsSteps.setStatusCode(res.getStatusCode());
+        } catch (ApiException e) {
+            UtilsSteps.setStatusCode(e.getCode());
+        }
     }
 
     @When("^I try to DELETE the pointScale$")
     public void i_try_to_DELETE_the_pointScale() throws Throwable {
-        ApiResponse<Void> res = defaultApi.pointScaleIdDeleteWithHttpInfo(UtilsSteps.getApiKey(), id);
-        UtilsSteps.setStatusCode(res.getStatusCode());
+        try {
+            ApiResponse<Void> res = defaultApi.pointScaleIdDeleteWithHttpInfo(UtilsSteps.getApiKey(), id);
+            UtilsSteps.setStatusCode(res.getStatusCode());
+        } catch (ApiException e) {
+            UtilsSteps.setStatusCode(e.getCode());
+        }
     }
 
     @When("^I try to change the pointScale's name$")
