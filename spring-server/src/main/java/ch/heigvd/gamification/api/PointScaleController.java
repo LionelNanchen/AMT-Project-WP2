@@ -55,7 +55,7 @@ public class PointScaleController implements PointScaleApi {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
-            PointScale pointScale = this.pointScaleRepository.findByApplicationAndId(application, id);
+            PointScale pointScale = pointScaleRepository.findByApplicationAndId(application, id);
 
             if (pointScale == null)
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

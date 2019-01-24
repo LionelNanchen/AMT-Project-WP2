@@ -1,6 +1,7 @@
 package ch.heigvd.gamification.service;
 
 import ch.heigvd.gamification.api.EventController;
+import ch.heigvd.gamification.api.dto.EventDTO;
 import ch.heigvd.gamification.model.*;
 import ch.heigvd.gamification.repository.*;
 import ch.heigvd.gamification.util.ModelToDTOConverter;
@@ -36,8 +37,7 @@ public class EventProcessor {
 
     @Async
     @Transactional
-    public Boolean processEvent(Event event, String xApiKey) {
-        return true;
+    public Boolean processEvent(EventDTO event, String xApiKey) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
@@ -49,17 +49,17 @@ public class EventProcessor {
             Event _event = ModelToDTOConverter.convert(event);
             _event.setUser(user);
             eventRepository.save(_event);
-            List<Rule> rules = rulesRepository.findAllByTypeAndBadge_Application(event.getType(), event.getUser().getApplication());
+            List<Rule> rules = rulesRepository.findAllByTypeAndBadge_Application(event.getType(), _event.getUser().getApplication());
 
             for (Rule rule : rules) {
-                if (rule.getConditions().size() > 0 && !event.checkProperties(rule.getConditions()))
+                if (rule.getConditions().size() > 0 && !_event.checkProperties(rule.getConditions()))
                     continue;
 
-                Reward reward = rewardRepository.findByUserAndRule(event.getUser(), rule);
+                Reward reward = rewardRepository.findByUserAndRule(_event.getUser(), rule);
                 if (reward == null)
-                    reward = new Reward(event.getUser(), rule, 0);
+                    reward = new Reward(_event.getUser(), rule, 0);
 
-                reward.setNbPoints(reward.getNbPoints() + event.getQuantityFromProperties());
+                reward.setNbPoints(reward.getNbPoints() + _event.getQuantityFromProperties());
                 rewardRepository.save(reward);
 
                 boolean exist = badgeRepository.existsByUsersContainsAndId(reward.getUser(), rule.getBadge().getId());

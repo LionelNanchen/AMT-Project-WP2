@@ -80,9 +80,10 @@ public class RulesController implements RulesApi {
         if (application != null) {
             Rule rule = rulesRepository.findByBadge_ApplicationAndId(application, id);
 
-            if (rule == null) return ResponseEntity.notFound().build();
+            if (rule == null)
+                return ResponseEntity.notFound().build();
 
-            PointScale pointScale = pointScaleRepository.findByApplicationAndId(application, body.getBadgeID());
+            PointScale pointScale = pointScaleRepository.findByApplicationAndId(application, body.getPointsScaleID());
             Badge badge = badgeRepository.findByApplicationAndId(application, body.getBadgeID());
 
             if (pointScale == null ||badge == null)

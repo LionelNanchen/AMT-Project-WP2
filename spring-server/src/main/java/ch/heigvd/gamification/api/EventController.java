@@ -42,9 +42,8 @@ public class EventController implements ch.heigvd.gamification.api.EventsApi {
 
     @Override
     public ResponseEntity<EventDTO> reportEvent(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey, @ApiParam(value = "The event that occured in the application" ,required=true )  @Valid @RequestBody EventDTO event) {
-        Event _event = ModelToDTOConverter.convert(event);
         EventProcessor eventProcessor = new EventProcessor();
-        if (eventProcessor.process(_event, xApiKey)) {
+        if (eventProcessor.processEvent(event, xApiKey)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
