@@ -51,7 +51,7 @@ public class PointScaleController implements PointScaleApi {
     }
 
     @Override
-    public ResponseEntity<Void> pointScaleIdDelete(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "PointScaleModel id to delete",required=true ) @PathVariable("id") Long id) {
+    public ResponseEntity<Void> pointScaleIdDelete(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "PointScale id to delete",required=true ) @PathVariable("id") Long id) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
@@ -68,7 +68,7 @@ public class PointScaleController implements PointScaleApi {
     }
 
     @Override
-    public ResponseEntity<Void> pointScaleIdPut(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "PointScaleModel id to update",required=true ) @PathVariable("id") Long id,@ApiParam(value = "The pointScale must have a new value" ,required=true )  @Valid @RequestBody PointScaleDTO body) {
+    public ResponseEntity<Void> pointScaleIdPut(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "PointScale id to update",required=true ) @PathVariable("id") Long id,@ApiParam(value = "The pointScale must have a new value" ,required=true )  @Valid @RequestBody PointScaleDTO body) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {

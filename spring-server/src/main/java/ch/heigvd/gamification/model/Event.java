@@ -59,7 +59,7 @@ public class Event implements Serializable {
         Property property = this.getPropertyByName(condition.getKey());
         if (property == null)
             return false;
-
+        
         switch (condition.getOperator()) {
             case "==":
                 return property.getValue().compareTo(condition.getValue()) == 0;

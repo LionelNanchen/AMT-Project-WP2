@@ -1,10 +1,10 @@
 package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.EventDTO;
-import ch.heigvd.gamification.model.*;
+import ch.heigvd.gamification.model.Application;
+import ch.heigvd.gamification.model.Badge;
 import ch.heigvd.gamification.repository.*;
 import ch.heigvd.gamification.service.EventProcessor;
-import ch.heigvd.gamification.util.ModelToDTOConverter;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +26,6 @@ public class EventController implements ch.heigvd.gamification.api.EventsApi {
     private ApplicationRepository applicationRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private EventRepository eventRepository;
 
     @Autowired
@@ -40,9 +37,14 @@ public class EventController implements ch.heigvd.gamification.api.EventsApi {
     @Autowired
     private BadgeRepository badgeRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EventProcessor eventProcessor;
+
     @Override
     public ResponseEntity<EventDTO> reportEvent(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey, @ApiParam(value = "The event that occured in the application" ,required=true )  @Valid @RequestBody EventDTO event) {
-        EventProcessor eventProcessor = new EventProcessor();
         if (eventProcessor.processEvent(event, xApiKey)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
