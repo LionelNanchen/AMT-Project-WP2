@@ -8,15 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * RuleResponseDTO
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T10:51:16.109+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T13:22:00.036+01:00")
 
 public class RuleResponseDTO   {
   @JsonProperty("id")
@@ -45,7 +43,7 @@ public class RuleResponseDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get id
    * @return id
   **/
@@ -65,7 +63,7 @@ public class RuleResponseDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get name
    * @return name
   **/
@@ -85,7 +83,7 @@ public class RuleResponseDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get type
    * @return type
   **/
@@ -105,7 +103,7 @@ public class RuleResponseDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get quantity
    * @return quantity
   **/
@@ -125,7 +123,7 @@ public class RuleResponseDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get pointScale
    * @return pointScale
   **/
@@ -146,7 +144,7 @@ public class RuleResponseDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get badge
    * @return badge
   **/
@@ -167,7 +165,7 @@ public class RuleResponseDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get properties
    * @return properties
   **/

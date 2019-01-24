@@ -8,15 +8,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * EndUserSummaryDTO
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T10:51:16.109+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T13:22:00.036+01:00")
 
 public class EndUserSummaryDTO   {
   @JsonProperty("userId")
@@ -26,7 +24,6 @@ public class EndUserSummaryDTO   {
   private String gamifiedUserId = null;
 
   @JsonProperty("badgesWon")
-  @Valid
   private List<BadgesResponseDTO> badgesWon = null;
 
   public EndUserSummaryDTO userId(Long userId) {
@@ -34,7 +31,7 @@ public class EndUserSummaryDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get userId
    * @return userId
   **/
@@ -54,7 +51,7 @@ public class EndUserSummaryDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get gamifiedUserId
    * @return gamifiedUserId
   **/
@@ -82,7 +79,7 @@ public class EndUserSummaryDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get badgesWon
    * @return badgesWon
   **/

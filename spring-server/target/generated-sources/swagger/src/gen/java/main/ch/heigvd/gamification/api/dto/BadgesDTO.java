@@ -5,15 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * BadgesDTO
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T10:51:16.109+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T13:22:00.036+01:00")
 
 public class BadgesDTO   {
   @JsonProperty("name")
@@ -27,7 +25,7 @@ public class BadgesDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get name
    * @return name
   **/
@@ -47,7 +45,7 @@ public class BadgesDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get description
    * @return description
   **/

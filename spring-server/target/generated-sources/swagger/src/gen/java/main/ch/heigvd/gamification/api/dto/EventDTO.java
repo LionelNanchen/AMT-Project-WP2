@@ -6,18 +6,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * EventDTO
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T10:51:16.109+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T13:22:00.036+01:00")
 
 public class EventDTO   {
   @JsonProperty("type")
@@ -27,10 +26,9 @@ public class EventDTO   {
   private String gamifiedUserId = null;
 
   @JsonProperty("timestamp")
-  private OffsetDateTime timestamp = null;
+  private DateTime timestamp = null;
 
   @JsonProperty("properties")
-  @Valid
   private List<ValueDTO> properties = null;
 
   public EventDTO type(String type) {
@@ -38,7 +36,7 @@ public class EventDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get type
    * @return type
   **/
@@ -58,7 +56,7 @@ public class EventDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get gamifiedUserId
    * @return gamifiedUserId
   **/
@@ -73,12 +71,12 @@ public class EventDTO   {
     this.gamifiedUserId = gamifiedUserId;
   }
 
-  public EventDTO timestamp(OffsetDateTime timestamp) {
+  public EventDTO timestamp(DateTime timestamp) {
     this.timestamp = timestamp;
     return this;
   }
 
-  /**
+   /**
    * Get timestamp
    * @return timestamp
   **/
@@ -86,11 +84,11 @@ public class EventDTO   {
 
   @Valid
 
-  public OffsetDateTime getTimestamp() {
+  public DateTime getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(OffsetDateTime timestamp) {
+  public void setTimestamp(DateTime timestamp) {
     this.timestamp = timestamp;
   }
 
@@ -107,7 +105,7 @@ public class EventDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get properties
    * @return properties
   **/

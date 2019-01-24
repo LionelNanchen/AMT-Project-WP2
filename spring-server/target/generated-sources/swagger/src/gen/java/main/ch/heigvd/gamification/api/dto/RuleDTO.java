@@ -9,15 +9,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * RuleDTO
  */
-@Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T10:51:16.109+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-24T13:22:00.036+01:00")
 
 public class RuleDTO   {
   @JsonProperty("name")
@@ -36,7 +34,6 @@ public class RuleDTO   {
   private Long badgeID = null;
 
   @JsonProperty("conditions")
-  @Valid
   private List<ConditionDTO> conditions = null;
 
   @JsonProperty("properties")
@@ -47,7 +44,7 @@ public class RuleDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get name
    * @return name
   **/
@@ -67,7 +64,7 @@ public class RuleDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get type
    * @return type
   **/
@@ -87,7 +84,7 @@ public class RuleDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get quantity
    * @return quantity
   **/
@@ -107,7 +104,7 @@ public class RuleDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get pointsScaleID
    * @return pointsScaleID
   **/
@@ -127,7 +124,7 @@ public class RuleDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get badgeID
    * @return badgeID
   **/
@@ -155,7 +152,7 @@ public class RuleDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get conditions
    * @return conditions
   **/
@@ -176,7 +173,7 @@ public class RuleDTO   {
     return this;
   }
 
-  /**
+   /**
    * Get properties
    * @return properties
   **/

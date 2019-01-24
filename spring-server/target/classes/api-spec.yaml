@@ -16,7 +16,7 @@ paths:
       produces:
       - application/json
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       responses:
         200:
           description: Successfully retrieved all badges
@@ -30,7 +30,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       - name: body
         in: body
         required: true
@@ -46,7 +46,7 @@ paths:
         summary: Delete a badge
         description: Delete one badge referenced by it's id.
         parameters:
-        - $ref: '#/parameters/ApiTokenHeader'
+        - $ref: '#/parameters/ApiKeyHeader'
         - in: path
           name: id
           description: Badge id to delete
@@ -62,7 +62,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       - name: id
         in: path
         description: BadgeModel id to update
@@ -87,7 +87,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       - name: event
         in: body
         description: The event that occured in the application
@@ -106,7 +106,7 @@ paths:
       summary: Get all pointScale
       description: Get all pointScale in relation with the app
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       produces:
       - application/json
       responses:
@@ -123,7 +123,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       - name: body
         in: body
         description: The new pointScale
@@ -142,7 +142,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       - name: id
         in: path
         description: PointScaleModel id to update
@@ -163,7 +163,7 @@ paths:
       summary: Delete a pointScale
       description: Delete a pointScale referenced by it's id
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       - in: path
         name: id
         description: PointScaleModel id to delete
@@ -180,7 +180,7 @@ paths:
       produces:
       - application/json
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       responses:
         200:
           description: Successfully retrieved all rules of an application
@@ -197,7 +197,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       - name: body
         in: body
         description: A rule is defined by a type, a quantity, a badge id, a point scale id and some properties
@@ -216,7 +216,7 @@ paths:
       summary: Delete a rule
       description: Delete a rule referenced by it's id.
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       - in: path
         name: id
         description: Rule id to delete
@@ -232,7 +232,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - $ref: '#/parameters/ApiTokenHeader'
+      - $ref: '#/parameters/ApiKeyHeader'
       - in: path
         name: id
         description: Rule id to update
@@ -375,9 +375,9 @@ definitions:
         items:
           $ref: '#/definitions/BadgesResponseDTO'
 parameters:
-  ApiTokenHeader:
+  ApiKeyHeader:
     description: token that contains the application key
-    name: X-Api-Token
+    name: X-Api-Key
     in: header
     required: true
     type: string

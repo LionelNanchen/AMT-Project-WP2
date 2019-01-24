@@ -1,6 +1,13 @@
 package ch.heigvd.gamification.api;
 
+import ch.heigvd.gamification.api.dto.BadgesResponseDTO;
+import ch.heigvd.gamification.model.Application;
+import ch.heigvd.gamification.model.Badge;
+import ch.heigvd.gamification.repository.ApplicationRepository;
+import ch.heigvd.gamification.repository.BadgeRepository;
+import ch.heigvd.gamification.util.ModelToDTOConverter;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +17,7 @@ import org.springframework.http.HttpStatus;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
@@ -18,26 +26,23 @@ import java.util.ArrayList;
 @RestController
 public class BadgesController implements BadgesApi {
 
-    ApplicationRepository applicationRepository;
-    BadgeRepository badgeRepository;
+    @Autowired
+    private  ApplicationRepository applicationRepository;
 
-    public BadgesController(ApplicationRepository applicationRepository, BadgeRepository badgeRepository) {
-        this.applicationRepository = applicationRepository;
-        this.badgeRepository = badgeRepository;
-    }
+    @Autowired
+    private BadgeRepository badgeRepository;
 
     @Override
-    ResponseEntity<List<BadgesResponseDTO>> badgesGet(@ApiParam(value = "token that contains the application key",required = true) @RequestHeader(value = "X-Api-Token",required = true) String apiToken) {
-        ApplicationModel application = applicationRepository.findByApiToken(apiToken);
+    public ResponseEntity<List<BadgesResponseDTO>> badgesGet(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey) {
+        Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
             try {
                 List<BadgesResponseDTO> response = new ArrayList<>();
 
-                for(BadgeModel badge : application.getAllBadgeModel()){
-                    response.add(Converter.convert(badge));
+                for(Badge badge : application.getBadges()){
+                    response.add(ModelToDTOConverter.convert(badge));
                 }
-
                 return ResponseEntity.ok(response);
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -48,19 +53,19 @@ public class BadgesController implements BadgesApi {
     }
 
     @Override
-    ResponseEntity<Void> badgesPost(@ApiParam(value = "token that contains the application key",required = true) @RequestHeader(value = "X-Api-Token",required = true) String apiToken, @ApiParam(value = "The new badge need to have a name and a description.",required = true) @Valid @RequestBody BadgesDTO badgesDTO) {
-        ApplicationModel application = applicationRepository.findByApiToken(apiToken);
+    public ResponseEntity<Void> badgesPost(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "The new badge need to have a name and a description." ,required=true )  @Valid @RequestBody ch.heigvd.gamification.api.dto.BadgesDTO body) {
+        Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
-            BadgeModel badgeModel = new BadgeModel();
+            Badge badge = new Badge();
 
-            if(!badgesDTO.getDescription().isEmpty() || !badgesDTO.getName().isEmpty() ){
-                badgeModel.setDescription(badgesDTO.getDescription());
-                badgeModel.setName(badgesDTO.getName());
-                badgeModel.setApplicationModel(application);
+            if (!body.getDescription().isEmpty() || !body.getName().isEmpty()) {
+                badge.setDescription(body.getDescription());
+                badge.setName(body.getName());
+                badge.setApplication(application);
             }
 
-            badgeRepository.save(badgeModel);
+            badgeRepository.save(badge);
             return ResponseEntity.status(HttpStatus.CREATED).header("id", String.valueOf(badge.getId())).build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -68,41 +73,41 @@ public class BadgesController implements BadgesApi {
     }
 
     @Override
-    ResponseEntity<Void> badgesIdDelete(@ApiParam(value = "token that contains the application key",required = true) @RequestHeader(value = "X-Api-Token",required = true) String apiToken, @ApiParam(value = "Badge id to delete",required = true) @PathVariable("id") Long id) {
-        ApplicationModel application = applicationRepository.findByApiToken(apiToken);
+    public ResponseEntity<Void> badgesIdDelete(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "Badge id to delete",required=true) @PathVariable("id") Long id) {
+        Badge badge = getBadge(xApiKey, id);
+        if (badge == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else {
+            if (badge == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        if (application != null) {
-            BadgeModel badgeModel = this.badgeRepository.findByApplicationAndID(application, id);
-
-            if (badgeModel == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-            badgeModel.getUsers().clear();
-
-            badgeRepository.delete(badgeModel);
+            badge.getUsers().clear();
+            badgeRepository.delete(badge);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     @Override
-    ResponseEntity<Void> badgesIdPut(@ApiParam(value = "token that contains the application key",required = true) @RequestHeader(value = "X-Api-Token",required = true) String apiToken, @ApiParam(value = "BadgeModel id to update",required = true) @PathVariable("id") Long id, @ApiParam(value = "The badge must have a new name and a new description",required = true) @Valid @RequestBody BadgesDTO badgesDTO) {
-        ApplicationModel application = applicationRepository.findByApiToken(apiToken);
-
-        if (application != null) {
-            BadgeModel badgeModel = this.badgeRepository.findByApplicationAndID(application, id);
-
-            if (badgeModel == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-            if(!badgesDTO.getDescription().isEmpty() && !badgesDTO.getName().isEmpty()){
-                badgeModel.setDescription(badgesDTO.getDescription());
-                badgeModel.setName(badgesDTO.getName());
+    public ResponseEntity<Void> badgesIdPut(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "BadgeModel id to update",required=true) @PathVariable("id") Long id,@ApiParam(value = "The badge must have a new name and a new description" ,required=true )  @Valid @RequestBody ch.heigvd.gamification.api.dto.BadgesDTO body) {
+        Badge badge = getBadge(xApiKey, id);
+        if (badge == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        else {
+            if (!body.getDescription().isEmpty() && !body.getName().isEmpty()) {
+                badge.setDescription(body.getDescription());
+                badge.setName(body.getName());
             }
-
-            badgeRepository.save(badgeModel);
+            badgeRepository.save(badge);
             return ResponseEntity.status(HttpStatus.OK).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    private Badge getBadge(String apiToken, Long id) {
+        Application application = applicationRepository.findByAppKey(apiToken);
+        if (application != null) {
+            Badge badge = this.badgeRepository.findByApplicationAndId(application, id);
+            return badge;
+        }
+        return null;
     }
 }
