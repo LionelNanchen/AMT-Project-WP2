@@ -1,0 +1,370 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Gamification Platform API - AMT_WP2
+  description: |
+    **This is the documentation of the AMT Gamification Platform API**
+host: localhost:8080
+basePath: /api
+schemes:
+  - http
+  - https
+paths:
+  /badges:
+    get:
+      summary: Get all badges for an application
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+      responses:
+        200:
+          description: Successfully retrieved all badges
+          schema:
+            title: Badges Array
+            type: array
+            items:
+              $ref: '#/definitions/BadgesResponseDTO'
+    post:
+      summary: Add a new badge to an application
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - name: body
+          in: body
+          required: true
+          description: The new badge need to have a name and a description.
+          schema:
+            $ref: '#/definitions/BadgesDTO'
+      responses:
+        201:
+          description: Successfully added
+
+  /badges/{id}:
+    delete:
+      summary: Delete a badge
+      description: Delete one badge referenced by it's id.
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - in: path
+          name: id
+          description: Badge id to delete
+          type: integer
+          format: int64
+          required: true
+      responses:
+        204:
+          description: Successfully deleted
+    put:
+      summary: Update a badge
+      description: Update a badge referenced by it's id
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - name: id
+          in: path
+          description: Badge id to update
+          type: integer
+          format: int64
+          required: true
+        - name: body
+          in: body
+          description: The badge must have a new name and a new description
+          schema:
+            $ref: '#/definitions/BadgesDTO'
+          required: true
+      responses:
+        200:
+          description: Successfully updated.
+
+  /events:
+    post:
+      summary: Reporting a new event
+      description: Reporting a new event that occured in the application
+      operationId: reportEvent
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - name: event
+          in: body
+          description: The event that occured in the application
+          schema:
+            $ref: '#/definitions/EventDTO'
+          required: true
+      responses:
+        201:
+          description:
+            The event has successfully been reported
+          schema:
+            $ref: '#/definitions/EventDTO'
+
+  /pointScale:
+    get:
+      summary: Get all pointScale
+      description: Get all pointScale in relation with the app
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successfully retrieved all pointScale
+          schema:
+            title: PointScale array
+            type: array
+            items:
+              $ref: '#/definitions/PointScaleIdDTO'
+    post:
+      summary: Add a new pointScale
+      description:  Add a new pointScale for the application
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - name: body
+          in: body
+          description: The new pointScale
+          schema:
+            $ref: '#/definitions/PointScaleDTO'
+          required: true
+      responses:
+        201:
+          description:
+            Successfully added
+
+  /pointScale/{id}:
+    put:
+      summary: Update a pointScale
+      description: Update a pointScale referenced by it's id
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - name: id
+          in: path
+          description: PointScale id to update
+          type: integer
+          format: int64
+          required: true
+        - name: body
+          in: body
+          description: The pointScale must have a new value
+          schema:
+            $ref: '#/definitions/PointScaleDTO'
+          required: true
+      responses:
+        200:
+          description:
+            Successfully updated.
+    delete:
+      summary: Delete a pointScale
+      description: Delete a pointScale referenced by it's id
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - in: path
+          name: id
+          description: PointScale id to delete
+          type: integer
+          format: int64
+          required: true
+      responses:
+        204:
+          description:
+            Successfully deleted.
+  /rules:
+    get:
+      description:  Get all rules from one application
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+      responses:
+        200:
+          description: Successfully retrieved all rules of an application
+          schema:
+            title: Rules array
+            type: array
+            items:
+              $ref: '#/definitions/RuleResponseDTO'
+        401:
+          description: Wrong application API token
+    post:
+      summary: Add a new rule
+      description:  Add a new rule for the referenced application by it's token
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - name: body
+          in: body
+          description: A rule is defined by a type, a quantity, a badge id, a point scale id and some properties
+          schema:
+            $ref: '#/definitions/RuleDTO'
+          required: true
+      responses:
+        201:
+          description: Successfully added
+        400:
+          description: Wrong badge or point scale id
+        401:
+          description: Wrong API token
+  /rules/{id}:
+    delete:
+      summary: Delete a rule
+      description: Delete a rule referenced by it's id.
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - in: path
+          name: id
+          description: Rule id to delete
+          type: integer
+          required: true
+      responses:
+        204:
+          description: Successfully deleted
+        401:
+          description: Wrong API token
+    put:
+      summary: Update a rule
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - in: path
+          name: id
+          description: Rule id to update
+          type: integer
+          required: true
+        - name: body
+          in: body
+          description: A rule is defined by a type, a quantity, a badge id, a point scale id and some properties
+          schema:
+            $ref: '#/definitions/RuleDTO'
+          required: true
+      responses:
+        200:
+          description: Successfully updated
+        400:
+          description: Wrong badge or point scale id
+        401:
+          description: Wrong API token
+
+definitions:
+  RuleDTO:
+    title: Rule
+    type: object
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+      quantity:
+        type: integer
+      pointsScaleID:
+        type: integer
+        format: int64
+      badgeID:
+        type: integer
+        format: int64
+      conditions:
+        type: array
+        items:
+          $ref: '#/definitions/ConditionDTO'
+      properties:
+        $ref: '#/definitions/ValueDTO'
+  ConditionDTO:
+    title: Condition
+    type: object
+    properties:
+      key:
+        type: string
+      operator:
+        type: string
+        description: Operation (<, >, =, !=)
+      value:
+        type: string
+  RuleResponseDTO:
+    title: RuleResponse
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      type:
+        type: string
+      quantity:
+        type: integer
+      pointScale:
+        $ref: '#/definitions/PointScaleIdDTO'
+      badge:
+        $ref: '#/definitions/BadgesResponseDTO'
+      properties:
+        $ref: '#/definitions/ValueDTO'
+  ValueDTO:
+    title: Value
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+  EventDTO:
+    title: Event
+    type: object
+    properties:
+      type:
+        type: string
+      remoteUserId:
+        type: string
+      timestamp:
+        type: string
+        format: date-time
+      properties:
+        type: array
+        items:
+          $ref: '#/definitions/ValueDTO'
+  BadgesDTO:
+    title: Badges
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+  BadgesResponseDTO:
+    title: BadgesResponse
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      description:
+        type: string
+  PointScaleDTO:
+    title: PointScale
+    type: object
+    properties:
+      pointScaleName:
+        type: string
+  PointScaleIdDTO:
+    title: PointScaleSummary
+    type: object
+    properties:
+      pointScaleId:
+        type: integer
+        format: int64
+      pointScaleName:
+        type: string
+parameters:
+  ApiKeyHeader:
+    description: token that contains the application key
+    name: X-Api-Key
+    in: header
+    required: true
+    type: string
