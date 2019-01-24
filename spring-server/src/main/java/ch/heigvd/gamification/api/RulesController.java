@@ -11,11 +11,16 @@ import ch.heigvd.gamification.repository.BadgeRepository;
 import ch.heigvd.gamification.repository.PointScaleRepository;
 import ch.heigvd.gamification.repository.RulesRepository;
 import ch.heigvd.gamification.util.ModelToDTOConverter;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +40,7 @@ public class RulesController implements RulesApi {
     private RulesRepository rulesRepository;
 
     @Override
-    public ResponseEntity<List<RuleResponseDTO>> rulesGet(String xApiKey) {
+    public ResponseEntity<List<RuleResponseDTO>> rulesGet(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
@@ -52,7 +57,7 @@ public class RulesController implements RulesApi {
     }
 
     @Override
-    public ResponseEntity<Void> rulesIdDelete(String xApiKey, Integer id) {
+    public ResponseEntity<Void> rulesIdDelete(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "Rule id to delete",required=true ) @PathVariable("id") Integer id) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
@@ -69,7 +74,7 @@ public class RulesController implements RulesApi {
     }
 
     @Override
-    public ResponseEntity<Void> rulesIdPut(String xApiKey, Integer id, RuleDTO body) {
+    public ResponseEntity<Void> rulesIdPut(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "Rule id to update",required=true ) @PathVariable("id") Integer id,@ApiParam(value = "A rule is defined by a type, a quantity, a badge id, a point scale id and some properties" ,required=true )  @Valid @RequestBody RuleDTO body) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
@@ -97,7 +102,7 @@ public class RulesController implements RulesApi {
     }
 
     @Override
-    public ResponseEntity<Void> rulesPost(String xApiKey, RuleDTO body) {
+    public ResponseEntity<Void> rulesPost(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "A rule is defined by a type, a quantity, a badge id, a point scale id and some properties" ,required=true )  @Valid @RequestBody RuleDTO body) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
@@ -120,4 +125,3 @@ public class RulesController implements RulesApi {
         }
     }
 }
-

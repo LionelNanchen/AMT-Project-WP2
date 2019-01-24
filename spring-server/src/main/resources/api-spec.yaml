@@ -26,20 +26,19 @@ paths:
             items:
               $ref: '#/definitions/BadgesResponseDTO'
     post:
-      summary: Add a new badge to an application
       consumes:
-        - application/json
+      - application/json
       parameters:
-        - $ref: '#/parameters/ApiKeyHeader'
-        - name: body
-          in: body
-          required: true
-          description: The new badge need to have a name and a description.
-          schema:
-            $ref: '#/definitions/BadgesDTO'
+      - $ref: '#/parameters/ApiKeyHeader'
+      - name: body
+        in: body
+        description: The new badge need to have a name and a description.
+        schema:
+          $ref: '#/definitions/BadgesDTO'
+        required: true
       responses:
-        201:
-          description: Successfully added
+        200:
+          description: ok
 
   /badges/{id}:
     delete:
@@ -65,7 +64,7 @@ paths:
         - $ref: '#/parameters/ApiKeyHeader'
         - name: id
           in: path
-          description: Badge id to update
+          description: BadgeModel id to update
           type: integer
           format: int64
           required: true
@@ -113,7 +112,7 @@ paths:
         200:
           description: Successfully retrieved all pointScale
           schema:
-            title: PointScale array
+            title: PointScaleModel array
             type: array
             items:
               $ref: '#/definitions/PointScaleIdDTO'
@@ -145,7 +144,7 @@ paths:
         - $ref: '#/parameters/ApiKeyHeader'
         - name: id
           in: path
-          description: PointScale id to update
+          description: PointScaleModel id to update
           type: integer
           format: int64
           required: true
@@ -166,7 +165,7 @@ paths:
         - $ref: '#/parameters/ApiKeyHeader'
         - in: path
           name: id
-          description: PointScale id to delete
+          description: PointScaleModel id to delete
           type: integer
           format: int64
           required: true
@@ -283,7 +282,7 @@ definitions:
         type: string
       operator:
         type: string
-        description: Operators (==, !=, <, >)
+        description: Operatiors (==, !=, <, >)
       value:
         type: string
   RuleResponseDTO:
@@ -353,7 +352,7 @@ definitions:
       pointScaleName:
         type: string
   PointScaleIdDTO:
-    title: PointScaleSummary
+    title: PointScaleId
     type: object
     properties:
       pointScaleId:

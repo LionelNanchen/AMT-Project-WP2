@@ -283,7 +283,7 @@ definitions:
         type: string
       operator:
         type: string
-        description: Operation (<, >, =, !=)
+        description: Operators (==, !=, <, >)
       value:
         type: string
   RuleResponseDTO:
