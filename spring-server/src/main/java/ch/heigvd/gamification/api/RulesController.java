@@ -11,7 +11,6 @@ import ch.heigvd.gamification.repository.BadgeRepository;
 import ch.heigvd.gamification.repository.PointScaleRepository;
 import ch.heigvd.gamification.repository.RulesRepository;
 import ch.heigvd.gamification.util.ModelToDTOConverter;
-import com.google.common.base.Converter;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,8 +46,8 @@ public class RulesController implements RulesApi {
         if (application != null) {
             List<RuleResponseDTO> response = new ArrayList<>();
 
-            for (Rule ruleModel : rulesRepository.findAllByBadge_Application(application)) {
-                response.add(ModelToDTOConverter.convert(ruleModel));
+            for (Rule rule : rulesRepository.findAllByBadge_Application(application)) {
+                response.add(ModelToDTOConverter.convert(rule));
             }
 
             return ResponseEntity.ok(response);
@@ -62,11 +61,11 @@ public class RulesController implements RulesApi {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
-            Rule ruleModel = rulesRepository.findByBadge_ApplicationAndId(application, id);
-            if (ruleModel == null)
+            Rule rule = rulesRepository.findByBadge_ApplicationAndId(application, id);
+            if (rule == null)
                 return ResponseEntity.notFound().build();
 
-            rulesRepository.delete(ruleModel);
+            rulesRepository.delete(rule);
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
@@ -79,22 +78,22 @@ public class RulesController implements RulesApi {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
-            Rule ruleModel = rulesRepository.findByBadge_ApplicationAndId(application, id);
+            Rule rule = rulesRepository.findByBadge_ApplicationAndId(application, id);
 
-            if (ruleModel == null) return ResponseEntity.notFound().build();
+            if (rule == null) return ResponseEntity.notFound().build();
 
-            PointScale pointScaleModel = pointScaleRepository.findByApplicationAndId(application, body.getBadgeID());
-            Badge badgeModel = badgeRepository.findByApplicationAndId(application, body.getBadgeID());
+            PointScale pointScale = pointScaleRepository.findByApplicationAndId(application, body.getBadgeID());
+            Badge badge = badgeRepository.findByApplicationAndId(application, body.getBadgeID());
 
-            if (pointScaleModel == null ||badgeModel == null)
+            if (pointScale == null ||badge == null)
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-            ruleModel.setBadge(badgeModel);
-            ruleModel.setName(body.getName());
-            ruleModel.setPointScale(pointScaleModel);
-            ruleModel.setQuantity(body.getQuantity());
-            ruleModel.setType(body.getType());
-            rulesRepository.save(ruleModel);
+            rule.setBadge(badge);
+            rule.setName(body.getName());
+            rule.setPointScale(pointScale);
+            rule.setQuantity(body.getQuantity());
+            rule.setType(body.getType());
+            rulesRepository.save(rule);
 
             return ResponseEntity.ok().build();
         } else {
@@ -107,16 +106,16 @@ public class RulesController implements RulesApi {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
-            Badge badgeModel = badgeRepository.findByApplicationAndId(application, body.getBadgeID());
-            PointScale pointScaleModel = pointScaleRepository.findByApplicationAndId(application, body.getPointsScaleID());
+            Badge badge = badgeRepository.findByApplicationAndId(application, body.getBadgeID());
+            PointScale pointScale = pointScaleRepository.findByApplicationAndId(application, body.getPointsScaleID());
 
-            if(pointScaleModel == null || badgeModel == null){
+            if(pointScale == null || badge == null){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
 
             Rule rule = ModelToDTOConverter.convert(body);
-            rule.setBadge(badgeModel);
-            rule.setPointScale(pointScaleModel);
+            rule.setBadge(badge);
+            rule.setPointScale(pointScale);
 
             rulesRepository.save(rule);
 

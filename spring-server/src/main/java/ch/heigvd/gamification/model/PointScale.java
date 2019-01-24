@@ -3,6 +3,10 @@ package ch.heigvd.gamification.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
+ * AMT WP2 2018-2019
+ */
 @Entity
 @Table(name = "point_scale")
 public class PointScale implements Serializable {
@@ -17,7 +21,7 @@ public class PointScale implements Serializable {
     @ManyToOne
     private Application application;
 
-    public PointScale(){}
+    public PointScale() {}
 
     public PointScale(String type, Application app){
         this.name = type;

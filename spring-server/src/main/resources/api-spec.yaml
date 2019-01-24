@@ -65,7 +65,7 @@ paths:
       - $ref: '#/parameters/ApiKeyHeader'
       - name: id
         in: path
-        description: BadgeModel id to update
+        description: Badge id to update
         type: integer
         format: int64
         required: true
@@ -113,10 +113,10 @@ paths:
         200:
           description: Successfully retrieved all pointScale
           schema:
-            title: PointScaleModel array
+            title: PointScale array
             type: array
             items:
-              $ref: '#/definitions/PointScaleSummaryDTO'
+              $ref: '#/definitions/PointScaleIdDTO'
     post:
       summary: Add a new pointScale
       description:  Add a new pointScale for the application
@@ -145,7 +145,7 @@ paths:
       - $ref: '#/parameters/ApiKeyHeader'
       - name: id
         in: path
-        description: PointScaleModel id to update
+        description: PointScale id to update
         type: integer
         format: int64
         required: true
@@ -166,7 +166,7 @@ paths:
       - $ref: '#/parameters/ApiKeyHeader'
       - in: path
         name: id
-        description: PointScaleModel id to delete
+        description: PointScale id to delete
         type: integer
         format: int64
         required: true
@@ -299,7 +299,7 @@ definitions:
       quantity:
         type: integer
       pointScale:
-        $ref: '#/definitions/PointScaleSummaryDTO'
+        $ref: '#/definitions/PointScaleIdDTO'
       badge:
         $ref: '#/definitions/BadgesResponseDTO'
       properties:
@@ -318,7 +318,7 @@ definitions:
     properties:
       type:
         type: string
-      GamifiedUserId:
+      RemoteUserId:
         type: string
       timestamp:
         type: string
@@ -352,7 +352,7 @@ definitions:
     properties:
       pointScaleName:
         type: string
-  PointScaleSummaryDTO:
+  PointScaleIdDTO:
     title: PointScaleSummary
     type: object
     properties:
@@ -361,19 +361,6 @@ definitions:
         format: int64
       pointScaleName:
         type: string
-  EndUserSummaryDTO:
-    title: EndUserSummary
-    type: object
-    properties:
-      userId:
-        type: integer
-        format: int64
-      gamifiedUserId:
-        type: string
-      badgesWon:
-        type: array
-        items:
-          $ref: '#/definitions/BadgesResponseDTO'
 parameters:
   ApiKeyHeader:
     description: token that contains the application key

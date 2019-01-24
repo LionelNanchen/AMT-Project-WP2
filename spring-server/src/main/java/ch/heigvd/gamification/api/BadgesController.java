@@ -1,5 +1,6 @@
 package ch.heigvd.gamification.api;
 
+import ch.heigvd.gamification.api.dto.BadgesDTO;
 import ch.heigvd.gamification.api.dto.BadgesResponseDTO;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.Badge;
@@ -88,22 +89,28 @@ public class BadgesController implements BadgesApi {
     }
 
     @Override
-    public ResponseEntity<Void> badgesIdPut(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "BadgeModel id to update",required=true) @PathVariable("id") Long id,@ApiParam(value = "The badge must have a new name and a new description" ,required=true )  @Valid @RequestBody ch.heigvd.gamification.api.dto.BadgesDTO body) {
+    public ResponseEntity<Void> badgesIdPut(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "Badge id to update",required=true ) @PathVariable("id") Long id,@ApiParam(value = "The badge must have a new name and a new description" ,required=true )  @Valid @RequestBody BadgesDTO body) {
         Badge badge = getBadge(xApiKey, id);
-        if (badge == null)
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        else {
+        if (badge != null) {
             if (!body.getDescription().isEmpty() && !body.getName().isEmpty()) {
                 badge.setDescription(body.getDescription());
                 badge.setName(body.getName());
             }
             badgeRepository.save(badge);
             return ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
-    private Badge getBadge(String apiToken, Long id) {
-        Application application = applicationRepository.findByAppKey(apiToken);
+    /**
+     * get the badge
+     * @param apiKey the api key
+     * @param id the badge's id
+     * @return the retrieved badge
+     */
+    private Badge getBadge(String apiKey, Long id) {
+        Application application = applicationRepository.findByAppKey(apiKey);
         if (application != null) {
             Badge badge = this.badgeRepository.findByApplicationAndId(application, id);
             return badge;

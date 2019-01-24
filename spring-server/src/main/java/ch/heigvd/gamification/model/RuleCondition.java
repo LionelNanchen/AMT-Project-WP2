@@ -3,6 +3,10 @@ package ch.heigvd.gamification.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
+ * AMT WP2 2018-2019
+ */
 @Entity
 @Table(name = "rules_conditions")
 public class RuleCondition implements Serializable {

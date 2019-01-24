@@ -1,6 +1,7 @@
 package ch.heigvd.gamification.api;
 
-import ch.heigvd.gamification.api.dto.PointScaleSummaryDTO;
+import ch.heigvd.gamification.api.dto.PointScaleDTO;
+import ch.heigvd.gamification.api.dto.PointScaleIdDTO;
 import ch.heigvd.gamification.model.Application;
 import ch.heigvd.gamification.model.PointScale;
 import ch.heigvd.gamification.repository.ApplicationRepository;
@@ -33,14 +34,14 @@ public class PointScaleController implements PointScaleApi {
     private PointScaleRepository pointScaleRepository;
 
     @Override
-    public ResponseEntity<List<PointScaleSummaryDTO>> pointScaleGet(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey) {
+    public ResponseEntity<List<PointScaleIdDTO>> pointScaleGet(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
-            List<PointScaleSummaryDTO> response = new ArrayList<PointScaleSummaryDTO>();
+            List<PointScaleIdDTO> response = new ArrayList<>();
 
-            for (PointScale pointScaleModel : application.getPointScales()) {
-                response.add(ModelToDTOConverter.convert(pointScaleModel));
+            for (PointScale pointScale : application.getPointScales()) {
+                response.add(ModelToDTOConverter.convert(pointScale));
             }
 
             return ResponseEntity.ok(response);
@@ -50,16 +51,16 @@ public class PointScaleController implements PointScaleApi {
     }
 
     @Override
-    public ResponseEntity<Void> pointScaleIdDelete(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "PointScaleModel id to delete",required=true) @PathVariable("id") Long id) {
+    public ResponseEntity<Void> pointScaleIdDelete(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "PointScale id to delete",required=true ) @PathVariable("id") Long id) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
-            PointScale pointScaleModel = this.pointScaleRepository.findByApplicationAndId(application, id);
+            PointScale pointScale = this.pointScaleRepository.findByApplicationAndId(application, id);
 
-            if (pointScaleModel == null)
+            if (pointScale == null)
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-            pointScaleRepository.delete(pointScaleModel);
+            pointScaleRepository.delete(pointScale);
             return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -67,7 +68,7 @@ public class PointScaleController implements PointScaleApi {
     }
 
     @Override
-    public ResponseEntity<Void> pointScaleIdPut(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "PointScaleModel id to update",required=true) @PathVariable("id") Long id,@ApiParam(value = "The pointScale must have a new value" ,required=true )  @Valid @RequestBody ch.heigvd.gamification.api.dto.PointScaleDTO body) {
+    public ResponseEntity<Void> pointScaleIdPut(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "PointScale id to update",required=true ) @PathVariable("id") Long id,@ApiParam(value = "The pointScale must have a new value" ,required=true )  @Valid @RequestBody PointScaleDTO body) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {

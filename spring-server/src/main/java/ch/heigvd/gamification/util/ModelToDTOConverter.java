@@ -8,80 +8,80 @@ import java.util.ArrayList;
 public class ModelToDTOConverter {
 
     public static BadgesResponseDTO convert(Badge badge) {
-        BadgesResponseDTO br = new BadgesResponseDTO();
-        br.setName(badge.getName());
-        br.setDescription(badge.getDescription());
-        br.setId(badge.getId());
-        return br;
+        BadgesResponseDTO output = new BadgesResponseDTO();
+        output.setDescription(badge.getDescription());
+        output.setName(badge.getName());
+        output.setId(badge.getId());
+        return output;
     }
 
-    public static PointScaleSummaryDTO convert(PointScale pointScale) {
-        PointScaleSummaryDTO rs = new PointScaleSummaryDTO();
-        rs.setPointScaleId(pointScale.getId());
-        rs.setPointScaleName(pointScale.getName());
-
-        return rs;
+    public static PointScaleIdDTO convert(PointScale pointScale) {
+        PointScaleIdDTO output = new PointScaleIdDTO();
+        output.setPointScaleName(pointScale.getName());
+        output.setPointScaleId(pointScale.getId());
+        return output;
     }
 
     // Rule ---> RuleResponseDTO
     // Rule <--- RuleResponseDTO
     public static RuleResponseDTO convert(Rule rule) {
-        RuleResponseDTO rr = new RuleResponseDTO();
-        rr.setQuantity(rule.getQuantity());
-        rr.setType(rule.getType());
-        rr.setName(rule.getName());
-        rr.setId(rule.getId());
-        rr.setBadge(convert(rule.getBadge()));
-        rr.setPointScale(convert(rule.getPointScale()));
-        return rr;
+        RuleResponseDTO output = new RuleResponseDTO();
+        output.setBadge(convert(rule.getBadge()));
+        output.setId(rule.getId());
+        output.setName(rule.getName());
+        output.setPointScale(convert(rule.getPointScale()));
+        output.setQuantity(rule.getQuantity());
+        output.setType(rule.getType());
+        return output;
     }
 
     public static Rule convert(RuleDTO ruleDTO) {
-        Rule rm = new Rule();
-        rm.setType(ruleDTO.getType());
-        rm.setQuantity(ruleDTO.getQuantity());
-        rm.setName(ruleDTO.getName());
-        rm.setConditions(new ArrayList<>());
-        if (ruleDTO.getConditions() == null)
-            return rm;
-        for(ConditionDTO condition : ruleDTO.getConditions()) {
-            rm.getConditions().add(convert(condition));
+        Rule output = new Rule();
+        output.setConditions(new ArrayList<>());
+        output.setName(ruleDTO.getName());
+        output.setQuantity(ruleDTO.getQuantity());
+        output.setType(ruleDTO.getType());
+
+
+        if (ruleDTO.getConditions() != null) {
+            for(ConditionDTO condition : ruleDTO.getConditions()) {
+                output.getConditions().add(convert(condition));
+            }
         }
-        return rm;
+        return output;
     }
 
     public static RuleCondition convert(ConditionDTO conditionDTO) {
-        RuleCondition rc = new RuleCondition();
-        rc.setKey(conditionDTO.getKey());
-        rc.setOperator(conditionDTO.getOperator());
-        rc.setValue(conditionDTO.getValue());
-        return rc;
+        RuleCondition output = new RuleCondition();
+        output.setKey(conditionDTO.getKey());
+        output.setOperator(conditionDTO.getOperator());
+        output.setValue(conditionDTO.getValue());
+        return output;
     }
 
 
     // EVENT
-    public static Event convert(EventDTO eventDTO)
-    {
-        Event event = new Event();
-        event.setType(eventDTO.getType());
-        event.setTimestamp(eventDTO.getTimestamp().toLocalDateTime());
-        event.setProperties(new ArrayList<>());
+    public static Event convert(EventDTO eventDTO) {
+        Event output = new Event();
+        output.setType(eventDTO.getType());
+        output.setTimestamp(eventDTO.getTimestamp().toLocalDateTime());
+        output.setProperties(new ArrayList<>());
         if (eventDTO.getProperties() != null) {
             for(ValueDTO property : eventDTO.getProperties()) {
                 Property prop = ModelToDTOConverter.convert(property);
-                event.getProperties().add(prop);
-                prop.setEvent(event);
+                output.getProperties().add(prop);
+                prop.setEvent(output);
             }
         }
 
-        return event;
+        return output;
     }
 
     // Property
     public static Property convert(ValueDTO value) {
-        Property property = new Property();
-        property.setName(value.getKey());
-        property.setValue(value.getValue());
-        return property;
+        Property output = new Property();
+        output.setName(value.getKey());
+        output.setValue(value.getValue());
+        return output;
     }
 }

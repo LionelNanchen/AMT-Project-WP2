@@ -5,6 +5,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
+ * AMT WP2 2018-2019
+ */
 @Entity
 @Table(name = "user_model")
 public class User implements Serializable {
@@ -22,13 +26,13 @@ public class User implements Serializable {
     private String remoteUserId;
 
     @OneToMany(mappedBy = "user")
-    private List<Reward> reward;
+    private List<Reward> rewards;
 
     @ManyToMany(mappedBy = "users")
     private List<Badge> badges;
 
     public User() {
-        this.reward = new ArrayList<>();
+        this.rewards = new ArrayList<>();
         this.badges = new ArrayList<>();
     }
 
@@ -51,12 +55,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public Application getApplicationModel() {
+    public Application getApplication() {
         return application;
     }
 
-    public void setApplication(Application applicationModel) {
-        this.application = applicationModel;
+    public void setApplication(Application application) {
+        this.application = application;
     }
 
     public String getRemoteUserId() {
@@ -67,19 +71,19 @@ public class User implements Serializable {
         this.remoteUserId = remoteUserId;
     }
 
-    public List<Reward> getAwardModels() {
-        return reward;
+    public List<Reward> getReward() {
+        return rewards;
     }
 
-    public void setAwardModels(List<Reward> rewardModels) {
-        this.reward = rewardModels;
+    public void setRewards(List<Reward> rewards) {
+        this.rewards = rewards;
     }
 
-    public List<Badge> getBadgeModels() {
+    public List<Badge> getBadges() {
         return badges;
     }
 
-    public void setBadgeModels(List<Badge> badgeModels) {
-        this.badges = badgeModels;
+    public void setBadges(List<Badge> badges) {
+        this.badges = badges;
     }
 }

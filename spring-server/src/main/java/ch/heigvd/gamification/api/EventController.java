@@ -17,6 +17,10 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
+ * AMT WP2 2018-2019
+ */
 @RestController
 public class EventController implements EventsApi {
 
@@ -48,10 +52,10 @@ public class EventController implements EventsApi {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
-            User user = userRepository.findByRemoteUserIdAndApplication(event.getGamifiedUserId(), application);
+            User user = userRepository.findByRemoteUserIdAndApplication(event.getRemoteUserId(), application);
 
             if (user == null)
-                user = new User(application, event.getGamifiedUserId());
+                user = new User(application, event.getRemoteUserId());
 
             Event _event = ModelToDTOConverter.convert(event);
             _event.setUser(user);
@@ -63,24 +67,22 @@ public class EventController implements EventsApi {
             EventProcessor eventProcessor = new EventProcessor() {
 
                 public void process(Event event) {
-                    List<Rule> rules = EventController.this.rulesRepository.findAllByTypeAndBadge_Application(event.getType(), event.getUser().getApplicationModel());
+                    List<Rule> rules = EventController.this.rulesRepository.findAllByTypeAndBadge_Application(event.getType(), event.getUser().getApplication());
 
                     for (Rule rule : rules) {
-                        if (rule.getConditions().size() > 0 && !event.isApplicable(rule.getConditions())) {
+                        if (rule.getConditions().size() > 0 && !event.isApplicable(rule.getConditions()))
                                 continue;
-                        }
 
-                        Reward award = EventController.this.rewardRepository.findByUserAndRule(event.getUser(), rule);
-                        if (award == null) {
-                            award = new Reward(event.getUser(), rule, 0);
-                        }
+                        Reward reward = EventController.this.rewardRepository.findByUserAndRule(event.getUser(), rule);
+                        if (reward == null)
+                            reward = new Reward(event.getUser(), rule, 0);
 
-                        award.setNbPoints(award.getNbPoints() + event.getQuantityFromProperties());
-                        EventController.this.rewardRepository.save(award);
+                        reward.setNbPoints(reward.getNbPoints() + event.getQuantityFromProperties());
+                        EventController.this.rewardRepository.save(reward);
 
-                        if (award.getNbPoints() >= rule.getQuantity() &&
-                                !EventController.this.badgeRepository.existsByUsersContainsAndId(award.getUser(), rule.getBadge().getId())) {
-                            rule.getBadge().getUsers().add(award.getUser());
+                        boolean exist = EventController.this.badgeRepository.existsByUsersContainsAndId(reward.getUser(), rule.getBadge().getId());
+                        if (reward.getNbPoints() >= rule.getQuantity() && !exist) {
+                            rule.getBadge().getUsers().add(reward.getUser());
                             EventController.this.badgeRepository.save(rule.getBadge());
                         }
                     }
@@ -90,11 +92,8 @@ public class EventController implements EventsApi {
             eventProcessor.process(_event);
 
             return ResponseEntity.status(HttpStatus.CREATED).build();
-
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-
     }
 }
