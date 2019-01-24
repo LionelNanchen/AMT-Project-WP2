@@ -18,21 +18,34 @@ public class BadgesSteps {
         BadgesDTO badges = new BadgesDTO();
         badges.setName("test");
         badges.setDescription("a test");
-        ApiResponse<Void> res = defaultApi.badgesPostWithHttpInfo(UtilsSteps.getApiKey(), badges);
-        UtilsSteps.setStatusCode(res.getStatusCode());
-        id = Long.parseLong(res.getHeaders().get("id").get(0));
+
+        try {
+            ApiResponse<Void> res = defaultApi.badgesPostWithHttpInfo(UtilsSteps.getApiKey(), badges);
+            UtilsSteps.setStatusCode(res.getStatusCode());
+            id = Long.parseLong(res.getHeaders().get("id").get(0));
+        } catch (ApiException e) {
+            UtilsSteps.setStatusCode(e.getCode());
+        }
     }
 
     @When("^I GET all the badges from the endpoint /badges$")
     public void i_GET_all_the_badges_from_the_endpoint_badges() throws Throwable {
-        ApiResponse<List<BadgesResponseDTO>> res = defaultApi.badgesGetWithHttpInfo(UtilsSteps.getApiKey());
-        UtilsSteps.setStatusCode(res.getStatusCode());
+        try {
+            ApiResponse<List<BadgesResponseDTO>> res = defaultApi.badgesGetWithHttpInfo(UtilsSteps.getApiKey());
+            UtilsSteps.setStatusCode(res.getStatusCode());
+        } catch (ApiException e) {
+            UtilsSteps.setStatusCode(e.getCode());
+        }
     }
 
     @When("^I try to DELETE the badge$")
     public void i_try_to_DELETE_the_badge() throws Throwable {
-        ApiResponse<Void> res = defaultApi.badgesIdDeleteWithHttpInfo(UtilsSteps.getApiKey(), id);
-        UtilsSteps.setStatusCode(res.getStatusCode());
+        try {
+            ApiResponse<Void> res = defaultApi.badgesIdDeleteWithHttpInfo(UtilsSteps.getApiKey(), id);
+            UtilsSteps.setStatusCode(res.getStatusCode());
+        } catch (ApiException e) {
+            UtilsSteps.setStatusCode(e.getCode());
+        }
     }
 
     @When("^I try to change the badge's name$")
