@@ -10,7 +10,7 @@ import java.util.List;
  * AMT WP2 2018-2019
  */
 @Entity
-@Table(name = "user_model")
+@Table(name = "user")
 public class User implements Serializable {
 
     @Id

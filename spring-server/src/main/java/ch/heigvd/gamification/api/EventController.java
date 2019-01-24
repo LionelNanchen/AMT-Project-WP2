@@ -4,17 +4,13 @@ import ch.heigvd.gamification.api.dto.EventDTO;
 import ch.heigvd.gamification.model.*;
 import ch.heigvd.gamification.repository.*;
 import ch.heigvd.gamification.util.ModelToDTOConverter;
-import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -48,7 +44,8 @@ public class EventController implements EventsApi {
     @Autowired
     private BadgeRepository badgeRepository;
 
-    public ResponseEntity<EventDTO> reportEvent(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey, @ApiParam(value = "The event that occured in the application" ,required=true )  @Valid @RequestBody EventDTO event) {
+    @Override
+    public ResponseEntity<EventDTO> reportEvent(String xApiKey, EventDTO event) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
@@ -71,7 +68,7 @@ public class EventController implements EventsApi {
 
                     for (Rule rule : rules) {
                         if (rule.getConditions().size() > 0 && !event.isApplicable(rule.getConditions()))
-                                continue;
+                            continue;
 
                         Reward reward = EventController.this.rewardRepository.findByUserAndRule(event.getUser(), rule);
                         if (reward == null)

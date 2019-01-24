@@ -28,7 +28,7 @@ public class Badge implements Serializable {
     @ManyToMany()
     private List<User> users;
 
-    public Badge(){}
+    public Badge() {}
 
     public Badge(String name, String description, Application app) {
         this.name = name;
