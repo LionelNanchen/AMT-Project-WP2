@@ -64,7 +64,7 @@ paths:
         - $ref: '#/parameters/ApiKeyHeader'
         - name: id
           in: path
-          description: BadgeModel id to update
+          description: Badge id to update
           type: integer
           format: int64
           required: true
@@ -112,7 +112,7 @@ paths:
         200:
           description: Successfully retrieved all pointScale
           schema:
-            title: PointScaleModel array
+            title: PointScale array
             type: array
             items:
               $ref: '#/definitions/PointScaleIdDTO'
@@ -144,7 +144,7 @@ paths:
         - $ref: '#/parameters/ApiKeyHeader'
         - name: id
           in: path
-          description: PointScaleModel id to update
+          description: PointScale id to update
           type: integer
           format: int64
           required: true
@@ -165,7 +165,7 @@ paths:
         - $ref: '#/parameters/ApiKeyHeader'
         - in: path
           name: id
-          description: PointScaleModel id to delete
+          description: PointScale id to delete
           type: integer
           format: int64
           required: true
