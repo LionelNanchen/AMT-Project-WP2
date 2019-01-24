@@ -40,9 +40,11 @@ public class EventController implements ch.heigvd.gamification.api.EventsApi {
     @Autowired
     private BadgeRepository badgeRepository;
 
+    @Autowired
+    private EventProcessor eventProcessor;
+
     @Override
     public ResponseEntity<EventDTO> reportEvent(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey, @ApiParam(value = "The event that occured in the application" ,required=true )  @Valid @RequestBody EventDTO event) {
-        EventProcessor eventProcessor = new EventProcessor();
         if (eventProcessor.processEvent(event, xApiKey)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {

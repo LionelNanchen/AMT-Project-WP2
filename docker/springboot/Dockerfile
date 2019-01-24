@@ -1,7 +1,7 @@
 FROM openjdk:8-jdk-alpine
 
-ENV DB_USERNAME=${MYSQL_USERNAME}
-ENV DB_PASSWORD=${MYSQL_PASSWORD}
+ENV DB_USERNAME=root
+ENV DB_PASSWORD=root
 
 COPY ./swagger-spring-1.0.0.jar swagger-spring-1.0.0.jar
 
