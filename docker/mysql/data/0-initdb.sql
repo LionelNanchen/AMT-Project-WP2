@@ -37,8 +37,8 @@ CREATE TABLE `application` (
 --
 
 INSERT INTO `application` (`id`, `app_key`, `app_token`, `description`, `enabled`, `name`) VALUES
-(1, 'mra', 'mra', 'mra', b'1', 'mra'),
-(2, 'toto', 'toto', 'toto', b'1', 'toto');
+(1, 'a1', 'a1', 'a1', b'1', 'a1'),
+(2, 'a2', 'a2', 'a2', b'1', 'a2');
 
 -- --------------------------------------------------------
 

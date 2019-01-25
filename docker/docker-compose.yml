@@ -1,15 +1,16 @@
 version: '3'
 services:
   mysql:
-    build: ./mysql/
+    image: mysql:5.7
     restart: always
     ports:
       - 3307:3306
     environment:
       MYSQL_DATABASE: amt_project
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
       MYSQL_PASSWORD: root
+    volumes:
+      - ./mysql/data/0-initdb.sql:/docker-entrypoint-initdb.d/dump.sql
   springboot:
     build: ./springboot/
     environment:
@@ -18,5 +19,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
+      - mysql
+    links:
       - mysql
   
