@@ -1,6 +1,5 @@
 package ch.heigvd.gamification.util;
 
-import ch.heigvd.gamification.api.dto.*;
 import ch.heigvd.gamification.api.dto.BadgesResponseDTO;
 import ch.heigvd.gamification.api.dto.PointScaleIdDTO;
 import ch.heigvd.gamification.api.dto.RuleResponseDTO;
@@ -8,6 +7,11 @@ import ch.heigvd.gamification.model.*;
 
 import java.util.ArrayList;
 
+/**
+ * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
+ * AMT WP2 2018-2019
+ * This class allow to convert a DTO object to a Model object and vice versa
+ */
 public class ModelToDTOConverter {
 
 

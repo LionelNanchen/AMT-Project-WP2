@@ -24,6 +24,10 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Authors: Amrani Kamil, Nanchen Lionel, Nicole Olivier, Reka Mentor
+ * AMT WP2 2018-2019
+ */
 @RestController
 public class RulesController implements RulesApi {
 
