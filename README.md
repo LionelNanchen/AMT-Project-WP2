@@ -35,7 +35,7 @@ A gamification engine can be very rich and support a lot of game mechanics. Beca
 | **OK** - As an application developer, I can define rules that allow me manage some state (e.g. give the badge after 5 events of type "askQuestion") have been asked. | FR | 2.0 |
 |  | **Total** | **12.0** |
 | As a **spiritual guide**, I can clone the repo, move to a documented repository and type `docker-compose up` to start the system. I also have instructions for running the automated tests. | NFR-maintainability | 1.0 |
-| As a **spiritual guide**, I have complete Cucumber tests for the badges, point scales and rules endpoints. | NFR-testability | 3.0 |
+| **OK** - As a **spiritual guide**, I have complete Cucumber tests for the badges, point scales and rules endpoints. | NFR-testability | 3.0 |
 | As a **spiritual guide**, I have advanced Cucumber tests for the /events endpoints, that validate the business logic (has the rule been triggered and are the side effects correct?) | NFR-testability | 4.0 |
 | As a **spiritual guide**, I have load testing script (e.g. JMeter) that I can use to evaluate if the engine behaves correctly when several events for the same user arrive at the same time. The experiments that have been done are well documented (e.g. under which conditions did we have a bug, how did we solve it, etc.) | NFR-reliability | 4.0 |
 |  | **Total** | **12.0** |
