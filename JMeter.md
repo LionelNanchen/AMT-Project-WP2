@@ -45,4 +45,4 @@ Le résultat final devrait être un nombre de points égal à 100.
 
 ## Résultat
 
-Nous avons remarqué que le nombre de point n'était pas correcte, nous avons donc un problème de conccurence. Le nombre que nous avons relevé est de 88.
+Nous avons remarqué que le nombre de point n'était pas correcte, et avons remarqué que cela vient du fait que plusieurs Rewards sont créées pour une même Rules/User ce qui pose un problème lorsque l'on récupère la reward à incrémenter, la requête que le serveur fait à la base de données nous en retourne plusieurs ce qui rend une erreur 500 aux clients. Il faudrait ajouter une contrainte afin que l'agregat Rules/User soit unique et que SQL retourne une erreur qui puisse intérompre la transaction en cours.
