@@ -2,6 +2,7 @@ package ch.heigvd.gamification.util;
 
 import ch.heigvd.gamification.api.dto.BadgesResponseDTO;
 import ch.heigvd.gamification.api.dto.PointScaleIdDTO;
+import ch.heigvd.gamification.api.dto.RewardDTO;
 import ch.heigvd.gamification.api.dto.RuleResponseDTO;
 import ch.heigvd.gamification.model.*;
 
@@ -54,6 +55,16 @@ public class ModelToDTOConverter {
         Property output = new Property();
         output.setName(value.getKey());
         output.setValue(value.getValue());
+        return output;
+    }
+
+    //REWARD
+    public static RewardDTO convert(Reward reward) {
+        RewardDTO output = new RewardDTO();
+        output.setId(Long.valueOf(reward.getId()));
+        output.setRuleId(Long.valueOf(reward.getRule().getId()));
+        output.setUserId(reward.getUser().getId());
+        output.setNbPoints(reward.getNbPoints());
         return output;
     }
 
