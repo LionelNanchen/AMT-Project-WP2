@@ -173,7 +173,6 @@ paths:
         204:
           description:
             Successfully deleted.
-
   /rewards/{user_id}/{rule_id}:
     get:
       summary: Get a reward from one application
@@ -181,17 +180,17 @@ paths:
         - application/json
       parameters:
         - $ref: '#/parameters/ApiKeyHeader'
-        - in: path
-          name: user_id
+        - name: user_id
+          in: path
           description: User id
           type: integer
-          format: int64
           required: true
-        - in: path
-          name: rule_id
+          format: int32
+        - name: rule_id
+          in: path
           description: Rule id
           type: integer
-          format: int64
+          format: int32mvn com
           required: true
       responses:
         200:
