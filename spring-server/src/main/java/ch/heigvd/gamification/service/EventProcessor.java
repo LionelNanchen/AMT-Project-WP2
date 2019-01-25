@@ -1,13 +1,9 @@
 package ch.heigvd.gamification.service;
 
-import ch.heigvd.gamification.api.EventController;
 import ch.heigvd.gamification.api.dto.EventDTO;
 import ch.heigvd.gamification.model.*;
 import ch.heigvd.gamification.repository.*;
 import ch.heigvd.gamification.util.ModelToDTOConverter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
