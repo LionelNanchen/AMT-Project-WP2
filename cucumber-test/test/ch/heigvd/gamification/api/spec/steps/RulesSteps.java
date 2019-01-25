@@ -4,9 +4,6 @@ import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
 import ch.heigvd.gamification.api.dto.*;
-import cucumber.api.PendingException;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
 import java.util.LinkedList;
@@ -18,11 +15,11 @@ public class RulesSteps {
     private long badgeId;
     private long pointScaleId;
 
-    private RuleDTO createTestRuleDTO() {
+    protected static RuleDTO createTestRuleDTO(long badgeId, long pointScaleId) {
         RuleDTO ruleDTO = new RuleDTO();
 
-        String key = "3";
-        String ope = ">";
+        String key = "key";
+        String ope = "==";
         String val = "3";
 
         List<ConditionDTO> conditions = new LinkedList<>();
@@ -62,7 +59,7 @@ public class RulesSteps {
         pointScaleId = Long.parseLong(res.getHeaders().get("id").get(0));
     }
 
-    private void iHaveDeletededABadge() throws Throwable {
+    private void iHaveDeletedABadge() throws Throwable {
         defaultApi.badgesIdDeleteWithHttpInfo(UtilsSteps.getApiKey(), badgeId);
     }
 
@@ -75,7 +72,7 @@ public class RulesSteps {
         iHaveCreatedABadge();
         iHaveCreatedAPointScale();
 
-        RuleDTO ruleDTO = createTestRuleDTO();
+        RuleDTO ruleDTO = createTestRuleDTO(badgeId, pointScaleId);
         ApiResponse<Void> res = defaultApi.rulesPostWithHttpInfo(UtilsSteps.getApiKey(), ruleDTO);
         UtilsSteps.setStatusCode(res.getStatusCode());
         id = Integer.parseInt(res.getHeaders().get("id").get(0));
@@ -92,17 +89,14 @@ public class RulesSteps {
         ApiResponse<Void> res = defaultApi.rulesIdDeleteWithHttpInfo(UtilsSteps.getApiKey(), id);
         UtilsSteps.setStatusCode(res.getStatusCode());
 
-        iHaveDeletededABadge();
+        iHaveDeletedABadge();
         iHaveDeletedAPointScale();
     }
 
     @When("^I try to change the rule's name$")
     public void i_try_to_change_the_rule_s_name() throws Throwable {
-        RuleDTO ruleDTO = createTestRuleDTO();
+        RuleDTO ruleDTO = createTestRuleDTO(badgeId, pointScaleId);
         ruleDTO.setName("test updated");
-
-        System.out.println(ruleDTO.getBadgeID());
-        System.out.println(ruleDTO.getPointsScaleID());
 
         try {
             ApiResponse<Void> res = defaultApi.rulesIdPutWithHttpInfo(UtilsSteps.getApiKey(), id, ruleDTO);
