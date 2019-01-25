@@ -27,15 +27,15 @@ paths:
               $ref: '#/definitions/BadgesResponseDTO'
     post:
       consumes:
-      - application/json
+        - application/json
       parameters:
-      - $ref: '#/parameters/ApiKeyHeader'
-      - name: body
-        in: body
-        description: The new badge need to have a name and a description.
-        schema:
-          $ref: '#/definitions/BadgesDTO'
-        required: true
+        - $ref: '#/parameters/ApiKeyHeader'
+        - name: body
+          in: body
+          description: The new badge need to have a name and a description.
+          schema:
+            $ref: '#/definitions/BadgesDTO'
+          required: true
       responses:
         200:
           description: ok
@@ -173,6 +173,37 @@ paths:
         204:
           description:
             Successfully deleted.
+
+  /rewards/{user_id}/{rule_id}:
+    get:
+      summary: Get a reward from one application
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/ApiKeyHeader'
+        - in: path
+          name: user_id
+          description: User id
+          type: integer
+          format: int64
+          required: true
+        - in: path
+          name: rule_id
+          description: Rule id
+          type: integer
+          format: int64
+          required: true
+      responses:
+        200:
+          description: Successfully retrieved the reward
+          schema:
+            title: Reward
+            type: object
+            items:
+              $ref: '#/definitions/RewardDTO'
+        401:
+          description: Wrong application API token
+
   /rules:
     get:
       description:  Get all rules from one application
@@ -252,6 +283,21 @@ paths:
           description: Wrong API token
 
 definitions:
+  RewardDTO:
+    title: Reward
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      user_id:
+        type: integer
+        format: int64
+      rule_id:
+        type: integer
+        format: int64
+      nbPoints:
+        type: integer
   RuleDTO:
     title: Rule
     type: object
