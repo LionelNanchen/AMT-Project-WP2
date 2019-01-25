@@ -10,4 +10,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UserRepository extends CrudRepository<User, Integer> {
     User findByRemoteUserIdAndApplication(String uId, Application application);
+    User findUserById(Long id);
 }

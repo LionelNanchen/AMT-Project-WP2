@@ -50,20 +50,19 @@ public class EventProcessor {
             List<Rule> rules = rulesRepository.findAllByTypeAndBadge_Application(event.getType(), _event.getUser().getApplication());
 
             for (Rule rule : rules) {
-                if (rule.getConditions().size() > 0 && !_event.checkProperties(rule.getConditions()))
-                    continue;
+                if (rule.getConditions().size() <= 0 || _event.checkProperties(rule.getConditions())) {
+                    Reward reward = rewardRepository.findByUserAndRule(_event.getUser(), rule);
+                    if (reward == null)
+                        reward = new Reward(_event.getUser(), rule, 0);
 
-                Reward reward = rewardRepository.findByUserAndRule(_event.getUser(), rule);
-                if (reward == null)
-                    reward = new Reward(_event.getUser(), rule, 0);
+                    reward.setNbPoints(reward.getNbPoints() + _event.getQuantityFromProperties());
+                    rewardRepository.save(reward);
 
-                reward.setNbPoints(reward.getNbPoints() + _event.getQuantityFromProperties());
-                rewardRepository.save(reward);
-
-                boolean exist = badgeRepository.existsByUsersContainsAndId(reward.getUser(), rule.getBadge().getId());
-                if (reward.getNbPoints() >= rule.getQuantity() && !exist) {
-                    rule.getBadge().getUsers().add(reward.getUser());
-                    badgeRepository.save(rule.getBadge());
+                    boolean exist = badgeRepository.existsByUsersContainsAndId(reward.getUser(), rule.getBadge().getId());
+                    if (reward.getNbPoints() >= rule.getQuantity() && !exist) {
+                        rule.getBadge().getUsers().add(reward.getUser());
+                        badgeRepository.save(rule.getBadge());
+                    }
                 }
             }
             return true;

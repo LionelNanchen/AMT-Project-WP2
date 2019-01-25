@@ -14,4 +14,6 @@ public interface RulesRepository extends CrudRepository<Rule, Integer> {
     List<Rule> findAllByBadge_Application(Application application);
     Rule findByBadge_ApplicationAndId(Application application, int id);
     List<Rule> findAllByTypeAndBadge_Application(String type, Application application);
+    Rule findRulesById(Long id);
+
 }

@@ -17,6 +17,7 @@ public class EventsSteps {
     private int ruleId;
     private long badgeId;
     private long pointScaleId;
+    private long userId;
 
     @And("^I have a badge$")
     public void iHaveABadge() throws Throwable {
@@ -62,10 +63,25 @@ public class EventsSteps {
         } catch (ApiException e) {
             UtilsSteps.setStatusCode(e.getCode());
         }
+    }
 
-        iHaveDeletedARule();
-        iHaveDeletedABadge();
-        iHaveDeletedAPointScale();
+    @When("^I try to GET a reward$")
+    public void iTryToGETAReward() throws Throwable {
+        //TODO get reward from endpoint with defaultApi
+
+        /*try {
+            ApiResponse<List<Void>> res = defaultApi.rewardGetWithHttpInfo(UtilsSteps.getApiKey(), ruleId, userId);
+            UtilsSteps.setStatusCode(res.getStatusCode());
+        } catch (ApiException e) {
+            UtilsSteps.setStatusCode(e.getCode());
+        }*/
+
+        // to clean the DB (not working)
+        //iHaveDeletedARule();
+        //iHaveDeletedABadge();
+        //iHaveDeletedAPointScale();
+
+        throw new PendingException();
     }
 
     private void iHaveDeletedARule() throws Throwable {

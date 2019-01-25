@@ -7,3 +7,5 @@ Feature: Events
     And I have a rule
     When I try to POST a new event
     Then I receive status code <201>
+    When I try to GET a reward
+    Then I receive status code <200>

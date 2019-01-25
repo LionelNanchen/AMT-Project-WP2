@@ -34,12 +34,14 @@ public class RewardController implements RewardsApi {
     RulesRepository rulesRepository;
 
     @Override
-    public ResponseEntity<Object> rewardsUserIdRuleIdGet(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey, @ApiParam(value = "User id",required=true ) @PathVariable("user_id") Long userId, @ApiParam(value = "Rule id",required=true ) @PathVariable("rule_id") Long ruleId) {
+    public ResponseEntity<Object> rewardsUserIdRuleIdGet(@ApiParam(value = "token that contains the application key" ,required=true) @RequestHeader(value="X-Api-Key", required=true) String xApiKey,@ApiParam(value = "User id",required=true ) @PathVariable("user_id") Integer userId,@ApiParam(value = "Rule id",required=true ) @PathVariable("rule_id") Integer ruleId) {
         Application application = applicationRepository.findByAppKey(xApiKey);
 
         if (application != null) {
-            User user = userRepository.findOne(userId.intValue());
-            Rule rule = rulesRepository.findOne(ruleId.intValue());
+            Long user_id = Long.valueOf(userId);
+            Long rule_id = Long.valueOf(ruleId);
+            User user = userRepository.findUserById(user_id);
+            Rule rule = rulesRepository.findRulesById(rule_id);
             Reward reward = rewardRepository.findByUserAndRule(user, rule);
             RewardDTO response = ModelToDTOConverter.convert(reward);
             return ResponseEntity.ok(response);
