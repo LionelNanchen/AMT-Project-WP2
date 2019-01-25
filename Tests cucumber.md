@@ -24,4 +24,11 @@ Afin d'exécuter les tests, ouvrir le projet : ` cucumber-tests` et exécuter le
 
 ![badge tests](imgs/badge_tests.png)
 
-Nous avons décidé de créer des tests pour chaque fonctionnalités et ceci sans avoir de restes dans la base de données. C'est pour cela que les tests sont certaines fois redondants.
+Nous avons décidé de créer des tests pour chaque fonctionnalités et ceci sans avoir de restes dans la base de données. C'est pour cela que les tests sont certaines fois redondants. Nous avons eu un problème lors de la création des tests sur les Events car nous n'avons pas terminé l'implémentation du endpoint pour récupérer les rewards.
+
+## Implémentation du DELETE
+
+Nous avons décidé d'implémenter le DELETE pour plusieurs raison:
+
+- La première raison est pour permettre à l'utilisateur d'avoir un contrôle total des ressources concernant la gamification de son application. 
+- Deuxièmement, afin de ne pas laisser de traces après les tests cucumber.
