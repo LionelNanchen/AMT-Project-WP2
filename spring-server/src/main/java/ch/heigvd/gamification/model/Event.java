@@ -57,18 +57,19 @@ public class Event implements Serializable {
 
     public boolean checkProperties(RuleCondition condition) {
         Property property = this.getPropertyByName(condition.getKey());
-        if (property == null)
+
+        String operator = condition.getOperator();
+
+        if (property == null) {
             return false;
-        
-        switch (condition.getOperator()) {
-            case "==":
-                return property.getValue().compareTo(condition.getValue()) == 0;
-            case "!=":
-                return property.getValue().compareTo(condition.getValue()) != 0;
-            case "<":
-                return property.getValue().compareTo(condition.getValue()) < 0;
-            case ">":
-                return property.getValue().compareTo(condition.getValue()) > 0;
+        } else if (operator.equals("==")) {
+            return property.getValue().compareTo(condition.getValue()) == 0;
+        } else if (operator.equals("!=")) {
+            return property.getValue().compareTo(condition.getValue()) != 0;
+        } else if (operator.equals(">")) {
+            return property.getValue().compareTo(condition.getValue()) > 0;
+        } else if (operator.equals("<")) {
+            return property.getValue().compareTo(condition.getValue()) < 0;
         }
         return true;
     }
