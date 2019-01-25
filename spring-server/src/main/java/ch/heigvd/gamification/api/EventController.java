@@ -38,9 +38,6 @@ public class EventController implements ch.heigvd.gamification.api.EventsApi {
     private BadgeRepository badgeRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private EventProcessor eventProcessor;
 
     @Override

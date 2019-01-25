@@ -1,5 +1,15 @@
 version: '3'
 services:
+  mysql:
+    build: ./mysql/
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: amt_project
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
   springboot:
     build: ./springboot/
     environment:
@@ -7,11 +17,6 @@ services:
       - DB_PASSWORD=root
     ports:
       - "8080:8080"
-    links:
-      - mysql:db
-  mysql:
-    build: ./mysql/
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-    ports:
-      - "3306:3306"
+    depends_on:
+      - mysql
+  
